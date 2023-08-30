@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '@layouts/Default.astro';
+import BlogList from '@components/blog/BlogList.astro';
+
+const posts = await getCollection('blog').then((collection) =>
+  collection.reverse()
+);
+---
+
+<Layout
+  title='Blog'
+  description='Gray In Film | Homepage'
+  pageTitle='Home'
+>
+  <main class='bg-green p-6'>
+    <BlogList posts={posts} />
+  </main>
+</Layout>
