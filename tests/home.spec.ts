@@ -7,12 +7,12 @@ const page = await context.newPage()
 
 const baseURL = 'https://grayinfilmv2.netlify.app/'
 const profileURL = {
-  github: 'https://github.com/digracesion/',
+  github: 'https://github.com/digracesion',
   instagram: 'https://www.instagram.com/gray__in__film/',
   linkedin: 'https://www.linkedin.com/in/mary-grygjeanne-grace-icay-109184140/',
-  linktree: 'https://linktr.ee/grayinfilm/',
-  rss: baseURL + 'feed.xml/',
-  kofi: 'https://ko-fi.com/grayinfilm/',
+  links: 'https://www.biodrop.io/digracesion',
+  rss: baseURL + 'feed.xml',
+  kofi: 'https://ko-fi.com/grayinfilm',
   hashnode: 'https://digracesion.hashnode.dev/sponsor/'
 }
 
