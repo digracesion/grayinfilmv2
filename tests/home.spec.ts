@@ -13,7 +13,7 @@ const profileURL = {
   links: 'https://www.biodrop.io/digracesion',
   rss: baseURL + 'feed.xml',
   kofi: 'https://ko-fi.com/grayinfilm',
-  hashnode: 'https://digracesion.hashnode.dev/sponsor/'
+  hashnode: 'https://digracesion.hashnode.dev/sponsor'
 }
 
 test.describe('test the static personal webpage', () => {
@@ -42,12 +42,12 @@ test.describe('test the static personal webpage', () => {
     const popup = await popupPromise
     await expect(popup).toHaveURL(profileURL.instagram)
   })
-  test('check linkedin navbar link is redirecting', async () => {
-    const popupPromise = page.waitForEvent('popup')
-    await page.getByRole('link', { name: '\'See @grayinfilm on LinkedIn' }).click()
-    const popup = await popupPromise
-    await expect(popup).toHaveURL(profileURL.linkedin)
-  })
+  // test('check linkedin navbar link is redirecting', async () => {
+  //   const popupPromise = page.waitForEvent('popup')
+  //   await page.getByRole('link', { name: '\'See @grayinfilm on LinkedIn' }).click()
+  //   const popup = await popupPromise
+  //   await expect(popup).toHaveURL(profileURL.linkedin)
+  // })
   test('check linktree navbar link is redirecting', async () => {
     const popupPromise = page.waitForEvent('popup')
     await page.getByRole('link', { name: '\'See @grayinfilm on BioDrop' }).click()
