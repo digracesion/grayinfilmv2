@@ -50,9 +50,9 @@ test.describe('test the static personal webpage', () => {
   })
   test('check linktree navbar link is redirecting', async () => {
     const popupPromise = page.waitForEvent('popup')
-    await page.getByRole('link', { name: '\'See @grayinfilm on LinkTree' }).click()
+    await page.getByRole('link', { name: '\'See @grayinfilm on BioDrop' }).click()
     const popup = await popupPromise
-    await expect(popup).toHaveURL(profileURL.linktree)
+    await expect(popup).toHaveURL(profileURL.links)
   })
   test('check rss navbar link is redirecting', async () => {
     const popupPromise = page.waitForEvent('popup')
