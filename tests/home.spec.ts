@@ -7,13 +7,13 @@ const page = await context.newPage()
 
 const baseURL = 'https://grayinfilmv2.netlify.app/'
 const profileURL = {
-  github: 'https://github.com/digracesion',
+  github: 'https://github.com/digracesion/',
   instagram: 'https://www.instagram.com/gray__in__film/',
   linkedin: 'https://www.linkedin.com/in/mary-grygjeanne-grace-icay-109184140/',
-  linktree: 'https://linktr.ee/grayinfilm',
-  rss: baseURL + 'feed.xml',
-  kofi: 'https://ko-fi.com/grayinfilm',
-  hashnode: 'https://digracesion.hashnode.dev/sponsor'
+  linktree: 'https://linktr.ee/grayinfilm/',
+  rss: baseURL + 'feed.xml/',
+  kofi: 'https://ko-fi.com/grayinfilm/',
+  hashnode: 'https://digracesion.hashnode.dev/sponsor/'
 }
 
 test.describe('test the static personal webpage', () => {
@@ -28,7 +28,7 @@ test.describe('test the static personal webpage', () => {
   test('check blog navbar link is redirecting', async () => {
     await page.getByRole('link', { name: 'Blog' }).first().click()
     expect(page).not.toBe('')
-    await expect(page).toHaveURL(baseURL + 'blog')
+    await expect(page).toHaveURL(baseURL + 'blog/')
   })
   test('check github navbar link is redirecting', async () => {
     const popupPromise = page.waitForEvent('popup')
@@ -75,12 +75,12 @@ test.describe('test the static personal webpage', () => {
   test('check blog redirection link from read my blogposts', async () => {
     await page.getByRole('link', { name: 'Read my blogposts →' }).click()
     expect(page).not.toBe('')
-    await expect(page).toHaveURL(baseURL + 'blog')
+    await expect(page).toHaveURL(baseURL + 'blog/')
   })
   test('check blog redirection links from go to blog', async () => {
     await page.getByRole('link', { name: 'Go to blog →' }).click()
     expect(page).not.toBe('')
-    await expect(page).toHaveURL(baseURL + 'blog')
+    await expect(page).toHaveURL(baseURL + 'blog/')
   })
   test.afterAll(async () => {
     context.close()
