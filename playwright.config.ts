@@ -38,10 +38,8 @@ export default defineConfig({
         ...devices['Desktop Chrome'],
         ...devices['Desktop Firefox'],
         ...devices['Desktop Safari'],
-        ...devices['Desktop Edge'],
-        channel: 'msedge'
-      },
-      fullyParallel: true
+        ...devices['Desktop Edge']
+      }
     }
   ]
 })

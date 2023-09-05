@@ -1,89 +1,85 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
-import { test, expect, chromium } from '@playwright/test'
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+import { test, expect, chromium, type Browser, type BrowserContext, type Page } from '@playwright/test'
+import 'dotenv/config'
 
-const browser = await chromium.launch()
-const context = await browser.newContext()
-const page = await context.newPage()
-
-const baseURL = 'https://grayinfilmv2.netlify.app/'
+let browser: Browser
+let context: BrowserContext
+let page: Page
+const baseURL = process.env.BASE_URL!
+const blogURL = process.env.BLOG_URL!
 const profileURL = {
-  github: 'https://github.com/digracesion',
-  instagram: 'https://www.instagram.com/gray__in__film/',
-  linkedin: 'https://www.linkedin.com/in/mary-grygjeanne-grace-icay-109184140/',
-  links: 'https://www.biodrop.io/digracesion',
-  rss: baseURL + 'feed.xml',
-  kofi: 'https://ko-fi.com/grayinfilm',
-  hashnode: 'https://digracesion.hashnode.dev/sponsor'
+  github: process.env.GITHUB_URL!,
+  instagram: process.env.INSTAGRAM_URL!,
+  linkedin: process.env.LINKEDIN_URL!,
+  links: process.env.LINKS_URL!,
+  rss: process.env.RSS_URL!,
+  kofi: process.env.KOFI_URL!,
+  hashnode: process.env.HASHNODE_URL!
+}
+
+async function checkLinkRedirection (linkName: string, expectedURL: string) {
+  const popupPromise = page.waitForEvent('popup')
+  await page.getByRole('link', { name: linkName }).click()
+  const popup = await popupPromise
+  const currentURL = await popup.evaluate('location.href')
+  expect(currentURL).toEqual(expectedURL)
 }
 
 test.describe('test the static personal webpage', () => {
+  test.beforeAll(async () => {
+    browser = await chromium.launch()
+    context = await browser.newContext()
+  })
   test.beforeEach(async () => {
+    page = await context.newPage()
     await page.goto(baseURL)
+  })
+  test('check title', async () => {
+    expect(await page.title()).toBe('Brutal Theme | Home')
   })
   test('check home navbar link is redirecting', async () => {
     await page.getByRole('link', { name: 'Home' }).click()
-    expect(page).not.toBe('')
     await expect(page).toHaveURL(baseURL)
   })
   test('check blog navbar link is redirecting', async () => {
     await page.getByRole('link', { name: 'Blog' }).first().click()
-    expect(page).not.toBe('')
-    await expect(page).toHaveURL(baseURL + 'blog/')
+    await expect(page).toHaveURL(blogURL)
   })
   test('check github navbar link is redirecting', async () => {
-    const popupPromise = page.waitForEvent('popup')
-    await page.getByRole('link', { name: '\'See @grayinfilm on GitHub' }).click()
-    const popup = await popupPromise
-    await expect(popup).toHaveURL(profileURL.github)
+    void checkLinkRedirection('\'See @grayinfilm on GitHub', profileURL.github)
   })
   test('check instagram navbar link is redirecting', async () => {
-    const popupPromise = page.waitForEvent('popup')
-    await page.getByRole('link', { name: '\'See @grayinfilm on Instagram' }).click()
-    const popup = await popupPromise
-    await expect(popup).toHaveURL(profileURL.instagram)
+    void checkLinkRedirection('\'See @grayinfilm on Instagram', profileURL.instagram)
   })
   test('check linkedin navbar link is redirecting', async () => {
-    const popupPromise = page.waitForEvent('popup')
-    await page.getByRole('link', { name: '\'See @grayinfilm on LinkedIn' }).click()
-    const popup = await popupPromise
-    await expect(popup).not.toHaveURL('error')
+    void checkLinkRedirection('\'See @grayinfilm on LinkedIn', profileURL.linkedin)
   })
   test('check links navbar link is redirecting', async () => {
-    const popupPromise = page.waitForEvent('popup')
-    await page.getByRole('link', { name: '\'See @grayinfilm on BioDrop' }).click()
-    const popup = await popupPromise
-    await expect(popup).toHaveURL(profileURL.links)
+    void checkLinkRedirection('\'See @grayinfilm on BioDrop', profileURL.links)
   })
   test('check rss navbar link is redirecting', async () => {
-    const popupPromise = page.waitForEvent('popup')
-    await page.getByRole('link', { name: '\'See @grayinfilm on RSS' }).click()
-    const popup = await popupPromise
-    await expect(popup).toHaveURL(profileURL.rss)
+    void checkLinkRedirection('\'See @grayinfilm on RSS', profileURL.rss)
   })
   test('check support me on kofi link', async () => {
-    const popupPromise = page.waitForEvent('popup')
-    await page.getByRole('link', { name: 'Ko-Fi' }).click()
-    const popup = await popupPromise
-    await expect(popup).toHaveURL(profileURL.kofi)
+    void checkLinkRedirection('Ko-Fi', profileURL.kofi)
   })
   test('check support me on hashnode link', async () => {
-    const popupPromise = page.waitForEvent('popup')
-    await page.getByRole('link', { name: 'Hashnode' }).click()
-    const popup = await popupPromise
-    await expect(popup).toHaveURL(profileURL.hashnode)
+    void checkLinkRedirection('Hashnode', profileURL.hashnode)
   })
   test('check blog redirection link from read my blogposts', async () => {
     await page.getByRole('link', { name: 'Read my blogposts →' }).click()
-    expect(page).not.toBe('')
-    await expect(page).toHaveURL(baseURL + 'blog/')
+    await expect(page).toHaveURL(blogURL)
   })
   test('check blog redirection links from go to blog', async () => {
     await page.getByRole('link', { name: 'Go to blog →' }).click()
-    expect(page).not.toBe('')
-    await expect(page).toHaveURL(baseURL + 'blog/')
+    await expect(page).toHaveURL(blogURL)
+  })
+  test.afterEach(async () => {
+    await page.close()
   })
   test.afterAll(async () => {
-    context.close()
-    browser.close()
+    await context.close()
+    await browser.close()
   })
 })

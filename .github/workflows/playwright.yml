@@ -20,7 +20,7 @@ jobs:
     - name: Run Linter
       run: npm run lint
     - name: Run Playwright Tests
-      run: npx playwright test
+      run: npx playwright test --project=all-browsers
     - uses: actions/upload-artifact@v3
       if: always()
       with:
