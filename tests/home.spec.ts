@@ -42,13 +42,13 @@ test.describe('test the static personal webpage', () => {
     const popup = await popupPromise
     await expect(popup).toHaveURL(profileURL.instagram)
   })
-  // test('check linkedin navbar link is redirecting', async () => {
-  //   const popupPromise = page.waitForEvent('popup')
-  //   await page.getByRole('link', { name: '\'See @grayinfilm on LinkedIn' }).click()
-  //   const popup = await popupPromise
-  //   await expect(popup).toHaveURL(profileURL.linkedin)
-  // })
-  test('check linktree navbar link is redirecting', async () => {
+  test('check linkedin navbar link is redirecting', async () => {
+    const popupPromise = page.waitForEvent('popup')
+    await page.getByRole('link', { name: '\'See @grayinfilm on LinkedIn' }).click()
+    const popup = await popupPromise
+    await expect(popup).not.toHaveURL('error')
+  })
+  test('check links navbar link is redirecting', async () => {
     const popupPromise = page.waitForEvent('popup')
     await page.getByRole('link', { name: '\'See @grayinfilm on BioDrop' }).click()
     const popup = await popupPromise
