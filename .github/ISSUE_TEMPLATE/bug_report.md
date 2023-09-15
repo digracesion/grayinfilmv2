@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report to help improve Brutal
+about: Create a report to help improve the application
 title: "[BUG]"
 labels: bug
 assignees: ''
