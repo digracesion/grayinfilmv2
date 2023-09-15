@@ -33,6 +33,7 @@
     "@iconify-json/uil": "^1.1.5",
     "@playwright/test": "^1.37.1",
     "@resvg/resvg-js": "^2.4.1",
+    "@testomatio/reporter": "^1.0.12",
     "@types/jest": "^29.5.4",
     "@types/node": "^20.5.9",
     "@typescript-eslint/eslint-plugin": "^6.5.0",
