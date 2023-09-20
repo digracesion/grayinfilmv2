@@ -39,6 +39,9 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 18
+    - uses: qase-tms/qase-link-run@main
+      env:
+        QASE_API_TOKEN: ${{ env.QASE_API_TOKEN }}
     - name: Install dependencies
       run: npm ci
     - name: Install Playwright Browsers
