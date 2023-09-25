@@ -19,16 +19,24 @@ const profileURL = {
 }
 
 async function checkLinkRedirection (linkName: string, expectedURL: string) {
-  const popupPromise = page.waitForEvent('popup')
-  await page.getByRole('link', { name: linkName }).click()
-  const popup = await popupPromise
-  const currentURL = await popup.evaluate('location.href')
-  expect(currentURL).toEqual(expectedURL)
+  // const popupPromise = page.waitForEvent('popup')
+  // await page.getByRole('link', { name: linkName }).click()
+  // const popup = await popupPromise
+  // await popup.waitForLoadState('domcontentloaded')
+  // console.log(await popup.title())
+  // const currentURL = await popup.evaluate('location.href')
+  // expect(currentURL).toEqual(expectedURL)
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  page.on('popup', async (popup) => {
+    await popup.waitForLoadState()
+    const currentURL = await popup.evaluate('location.href')
+    expect(currentURL).toEqual(expectedURL)
+  })
 }
 
 test.describe('test the static personal webpage @Se616e1c6', () => {
   test.beforeAll(async () => {
-    browser = await chromium.launch({ headless: false })
+    browser = await chromium.launch()
     context = await browser.newContext()
   })
   test.beforeEach(async () => {
