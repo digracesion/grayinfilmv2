@@ -23,15 +23,27 @@ export default defineConfig({
   reporter: [
     ['./node_modules/@testomatio/reporter/lib/adapter/playwright.js',
       { apiKey: process.env.TESTOMATIO }
+    ],
+    ['playwright-qase-reporter',
+      {
+        apiToken: process.env.QASE_API_TOKEN,
+        projectCode: 'GRY',
+        runComplete: true,
+        basePath: 'https://api.qase.io/v1',
+        environmentId: 1,
+        logging: true,
+        uploadAttachments: true
+      }
     ]
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://127.0.0.1:3000',
-
+    screenshot: 'only-on-failure',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-all-retries'
+    trace: 'on-all-retries',
+    video: 'retain-on-failure'
   },
 
   /* Configure projects for major browsers */

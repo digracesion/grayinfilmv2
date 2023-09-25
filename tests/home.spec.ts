@@ -28,7 +28,7 @@ async function checkLinkRedirection (linkName: string, expectedURL: string) {
 
 test.describe('test the static personal webpage @Se616e1c6', () => {
   test.beforeAll(async () => {
-    browser = await chromium.launch()
+    browser = await chromium.launch({ headless: false })
     context = await browser.newContext()
   })
   test.beforeEach(async () => {
