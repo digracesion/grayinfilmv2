@@ -1,36 +1,33 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { test, expect, chromium, type Browser, type BrowserContext, type Page } from '@playwright/test'
 import 'dotenv/config'
 
 let browser: Browser
 let context: BrowserContext
 let page: Page
-const baseURL = process.env.BASE_URL!
-const blogURL = process.env.BLOG_URL!
+const baseURL = process.env.BASE_URL ?? 'https://grayinfilmv2.netlify.app'
+const blogURL = process.env.BLOG_URL ?? 'https://grayinfilmv2.netlify.app'
 const profileURL = {
-  github: process.env.GITHUB_URL!,
-  instagram: process.env.INSTAGRAM_URL!,
-  linkedin: process.env.LINKEDIN_URL!,
-  links: process.env.LINKS_URL!,
-  rss: process.env.RSS_URL!,
-  kofi: process.env.KOFI_URL!,
-  hashnode: process.env.HASHNODE_URL!
+  github: process.env.GITHUB_URL ?? 'https://github.com/digracesion',
+  instagram: process.env.INSTAGRAM_URL ?? 'https://www.instagram.com/gray__in__film/',
+  linkedin: process.env.LINKEDIN_URL ?? 'https://www.linkedin.com/in/mary-grygjeanne-grace-icay-109184140/',
+  links: process.env.LINKS_URL ?? 'https://www.biodrop.io/digracesion',
+  rss: process.env.RSS_URL ?? 'https://grayinfilmv2.netlify.app/feed.xml',
+  kofi: process.env.KOFI_URL ?? 'https://ko-fi.com/grayinfilm',
+  hashnode: process.env.HASHNODE_URL ?? 'https://digracesion.hashnode.dev/sponsor',
+  newsletter: process.env.NEWSLETTER_URL ?? 'https://grayinfilm.substack.com'
 }
 
-async function checkLinkRedirection (linkName: string, expectedURL: string) {
-  // const popupPromise = page.waitForEvent('popup')
-  // await page.getByRole('link', { name: linkName }).click()
-  // const popup = await popupPromise
-  // await popup.waitForLoadState('domcontentloaded')
-  // console.log(await popup.title())
-  // const currentURL = await popup.evaluate('location.href')
-  // expect(currentURL).toEqual(expectedURL)
+/**
+ * Asynchronously checks if a link redirects to the expected URL.
+ * @param expectedURL The expected URL that the link should redirect to.
+ * @returns A Promise that resolves to void.
+ */
+async function checkLinkRedirection (expectedURL: string): Promise<void> {
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
-  page.on('popup', async (popup) => {
+  page.once('popup', async (popup) => {
     await popup.waitForLoadState()
-    const currentURL = await popup.evaluate('location.href')
-    expect(currentURL).toEqual(expectedURL)
+    const currentURL = popup.url()
+    expect(currentURL).toBe(expectedURL)
   })
 }
 
@@ -43,43 +40,46 @@ test.describe('test the static personal webpage @Se616e1c6', () => {
     page = await context.newPage()
     await page.goto(baseURL)
   })
-  test('check title @T8a56309d', async () => {
+  test('check title', async () => {
     expect(await page.title()).toBe('Brutal Theme | Home')
   })
-  test('check home navbar link is redirecting @T3ecb860e', async () => {
+  test('check home navbar link is redirecting', async () => {
     await page.getByRole('link', { name: 'Home' }).click()
     await expect(page).toHaveURL(baseURL)
   })
-  test('check blog navbar link is redirecting @T8f04f031', async () => {
+  test('check blog navbar link is redirecting', async () => {
     await page.getByRole('link', { name: 'Blog' }).first().click()
     await expect(page).toHaveURL(blogURL)
   })
-  test('check github navbar link is redirecting @T607a0dbd', async () => {
+  test('check github navbar link is redirecting', async () => {
     void checkLinkRedirection('\'See @grayinfilm on GitHub', profileURL.github)
   })
-  test('check instagram navbar link is redirecting @Tdfa6a28b', async () => {
+  test('check instagram navbar link is redirecting', async () => {
     void checkLinkRedirection('\'See @grayinfilm on Instagram', profileURL.instagram)
   })
-  test('check linkedin navbar link is redirecting @T5369c048', async () => {
+  test('check linkedin navbar link is redirecting', async () => {
     void checkLinkRedirection('\'See @grayinfilm on LinkedIn', profileURL.linkedin)
   })
-  test('check links navbar link is redirecting @T07c68866', async () => {
+  test('check links navbar link is redirecting', async () => {
     void checkLinkRedirection('\'See @grayinfilm on BioDrop', profileURL.links)
   })
-  test('check rss navbar link is redirecting @T411a8b08', async () => {
+  test('check rss navbar link is redirecting', async () => {
     void checkLinkRedirection('\'See @grayinfilm on RSS', profileURL.rss)
   })
-  test('check support me on kofi link @T2a975061', async () => {
+  test('check support me on kofi link', async () => {
     void checkLinkRedirection('Ko-Fi', profileURL.kofi)
   })
-  test('check support me on hashnode link @Teba88b3b', async () => {
+  test('check support me on hashnode link', async () => {
     void checkLinkRedirection('Hashnode', profileURL.hashnode)
   })
-  test('check blog redirection link from read my blogposts @T66f61bb5', async () => {
+  test('check support me on newsletter link', async () => {
+    void checkLinkRedirection('Newsletter', profileURL.newsletter)
+  })
+  test('check blog redirection link from read my blogposts', async () => {
     await page.getByRole('link', { name: 'Read my blogposts →' }).click()
     await expect(page).toHaveURL(blogURL)
   })
-  test('check blog redirection links from go to blog @Tbf3a8417', async () => {
+  test('check blog redirection links from go to blog', async () => {
     await page.getByRole('link', { name: 'Go to blog →' }).click()
     await expect(page).toHaveURL(blogURL)
   })

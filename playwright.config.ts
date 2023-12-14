@@ -20,22 +20,7 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: (process.env.CI != null) ? 4 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [
-    ['./node_modules/@testomatio/reporter/lib/adapter/playwright.js',
-      { apiKey: process.env.TESTOMATIO }
-    ],
-    ['playwright-qase-reporter',
-      {
-        apiToken: process.env.QASE_API_TOKEN,
-        projectCode: 'GRY',
-        runComplete: true,
-        basePath: 'https://api.qase.io/v1',
-        environmentId: 1,
-        logging: true,
-        uploadAttachments: true
-      }
-    ]
-  ],
+  reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
