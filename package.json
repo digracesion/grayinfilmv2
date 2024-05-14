@@ -25,7 +25,7 @@
     "@eliancodes/brutal-ui": "^0.2.2",
     "astro": "^2.10.3",
     "dotenv": "^16.3.1",
-    "playwright-qase-reporter": "^1.2.1",
+    "playwright-qase-reporter": "^2.0.0",
     "satori": "^0.5.0",
     "satori-html": "^0.3.2"
   },
