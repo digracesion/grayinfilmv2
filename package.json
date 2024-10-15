@@ -20,7 +20,7 @@
     "test": "npm run lint && npx playwright test --project=all-browsers"
   },
   "dependencies": {
-    "@astrojs/rss": "^2.4.4",
+    "@astrojs/rss": "^4.0.8",
     "@astrojs/sitemap": "^2.0.1",
     "@eliancodes/brutal-ui": "^0.2.2",
     "astro": "^4.15.10",
